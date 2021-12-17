@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css"/>
+        <title>Cian Hogan|HOME</title>
+        
+
+    </head>
+    <body>
+        <h1>This is the login page </h1>
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            {{ form.username }}
+            {{ form.password }}
+            {{ form.submit }}
+
+        </form>
+
+        <p>
+            Don't have an account? <a href="{{url_for('register')}}"> Register Here</a>
+        </p>
+    
+    </body>
+</html>
