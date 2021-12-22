@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
@@ -135,14 +136,31 @@ def logMaxsPage():
 @app.route('/dashboard',  methods=['GET', 'POST'])
 @login_required
 def dashboard():
+
     id = current_user.get_id()
     user = User.query.filter_by(id=id).first()
-    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).all()
     squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).all()
     deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).all()
 
-    return render_template('dash.html', user=user, bench=bench, squat=squat, deadlift=deadlift)
+    #benchList = [RepMaxs.fiveRM, RepMaxs.fourRM, RepMaxs.threeRM, RepMaxs.twoRM, RepMaxs.oneRM]
+    benchReturn = []
+    
+    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.fiveRM)).first()
+    benchReturn.append(bench.fiveRM)
+    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.fourRM)).first()
+    benchReturn.append(bench.fourRM)
+    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.threeRM)).first()
+    benchReturn.append(bench.threeRM)
+    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.twoRM)).first()
+    benchReturn.append(bench.twoRM)
+    bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.oneRM)).first()
+    benchReturn.append(bench.oneRM)
 
+    print(benchReturn)
+    
+    
+
+    return render_template('dash.html', user=user, bench=benchReturn, squat=squat, deadlift=deadlift)
 
 
 if __name__ == "__main__":

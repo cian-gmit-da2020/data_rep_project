@@ -1,40 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Dashboard</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
-</head>
-
-<body>
-    <h1>Hello {{user.username}}</h1><br>
-    {% if bench|length > 0 %}
-    <p>Bench:
-        5 RM: {{bench[0].fiveRM}}
-        1 RM: {{bench[0].oneRM}}
-    </p>
-    {% endif %}
-    {% if squat|length > 0 %}
-    <p>Squat:
-        5 RM: {{squat[0].fiveRM}} 
-        1 RM: {{squat[0].oneRM}} 
-    </p>
-    {% endif %}
-    {% if deadlift|length > 0 %}
-    <p>
-        Deadlift:
-        5 RM: {{deadlift[0].fiveRM}} 
-        1 RM: {{deadlift[0].oneRM}}
-    </p>
-    {% endif %}
-
-    
+{% extends "base.html" %}
+{% block title %}Cian Hogan|Dashboard{% endblock %}
+{% block content %}
 
 
-    <a href= "{{url_for('logout')}}">Logout</a>
-    
-</body>
-</html>
+
+<h1>Hello {{user.username}}</h1><br>
+
+<table style="max-width:50%;" class="table table-bordered table-responsive">
+    <thead>
+    <tr>
+        <th colspan="2">Bench Press</th>
+    </tr>
+</thead>
+
+<tr>
+    <td>5RM</td>
+    <td>{{bench[0]}}</td>
+</tr>
+
+<tr>
+    <td>4RM</td>
+    <td>{{bench[1]}}</td>
+</tr>
+
+<tr>
+    <td>3RM</td>
+    <td>{{bench[2]}}</td>
+</tr>
+
+<tr>
+    <td>2RM</td>
+    <td>{{bench[3]}}</td>
+</tr>
+
+<tr>
+    <td>1RM</td>
+    <td>{{bench[4]}}</td>
+</tr>
+</table>
+<br>
+<table class="table">
+    <tr>
+        <th colspan="2">Squat</th>
+    </tr>
+    <tr>
+        <td>5 RM</td>
+        <td>{{squat[0].fiveRM}}</td>
+    </tr>
+    <tr>
+        <td>4 RM</td>
+        <td>{{squat[0].fourRM}}</td>
+    </tr>
+    <tr>
+        <td>3 RM</td>
+        <td>{{squat[0].threeRM}}</td>
+    </tr>
+    <tr>
+        <td>2 RM</td>
+        <td>{{squat[0].twoRM}}</td>
+    </tr>
+    <tr>
+        <td>1 RM</td>
+        <td>{{squat[0].oneRM}}</td>
+    </tr>
+</table>
+<br>
+<table class="table">
+    <tr>
+        <th colspan="2">Deadlift</th>
+    </tr>
+    <tr>
+        <td>5 RM</td>
+        <td>{{deadlift[0].fiveRM}}</td>
+    </tr>
+    <tr>
+        <td>4 RM</td>
+        <td>{{deadlift[0].fourRM}}</td>
+    </tr>
+    <tr>
+        <td>3 RM</td>
+        <td>{{deadlift[0].threeRM}}</td>
+    </tr>
+    <tr>
+        <td>2 RM</td>
+        <td>{{deadlift[0].twoRM}}</td>
+    </tr>
+    <tr>
+        <td>1 RM</td>
+        <td>{{deadlift[0].oneRM}}</td>
+    </tr>
+</table>
+<!--
+<br>
+{% if bench|length > 0 %}
+<p>Bench:
+    5 RM: {{bench[0].fiveRM}}
+    1 RM: {{bench[0].oneRM}}
+</p>
+{% endif %}
+{% if squat|length > 0 %}
+<p>Squat:
+    5 RM: {{squat[0].fiveRM}} 
+    1 RM: {{squat[0].oneRM}} 
+</p>
+{% endif %}
+{% if deadlift|length > 0 %}
+<p>
+    Deadlift:
+    5 RM: {{deadlift[0].fiveRM}} 
+    1 RM: {{deadlift[0].oneRM}}
+</p>
+{% endif %}-->
+
+<a href= "{{url_for('logout')}}" >Logout</a>
+
+{% endblock %}

@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="style.css"/>
-        <title>Cian Hogan|HOME</title>
-        
+{% extends "base.html" %}
+{% block title %}Cian Hogan|Register{% endblock %}
+{% block content %}
+<h1>This is the registeration page title</h1>
 
-    </head>
-    <body>
-        <h1>This is the registeration page title</h1>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {{ form.username }}
+    {{ form.password }}
+    {{ form.submit }}
 
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            {{ form.username }}
-            {{ form.password }}
-            {{ form.submit }}
+</form>
+<p>
+    Already have an account? <a href="{{url_for('login')}}"> Login Here</a>
+</p>
 
-        </form>
+{% endblock %}
 
-        <p>
-          Already have an account? <a href="{{url_for('login')}}"> Login Here</a>
-        </p>
-    
-    </body>
-</html>
