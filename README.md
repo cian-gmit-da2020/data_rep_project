@@ -63,6 +63,11 @@ Variables are base to the given template via the app routes in app.py
 
 home.html also uses Ajax and Jquery to post data to '/process' route within app.py. This allows app.py to perform calculations and return a JSON object to the AJAX function and the page is manipulated based on that information.
 
+# appDB.py
+This is the database file that stores the tables for Users and RepMaxs. Using this file and SQLALCHEMY allows it to be easily portable from one machine to another and also works through python anywhere. If the app was to scale up to large amounts of data another database approach would be needed.
+
+If the database file appDB.py does not exist in the current directory, the db.create_all() method in the if __name__ function will create the file.
+
 # requirements.txt
 The requirements.txt file holds a list of any python modules needed for this app to run.
 The app was set up and runs on Python 3.8.3 but may run on other versions of python.
