@@ -4,7 +4,7 @@ from sqlalchemy import desc
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length, ValidationError, Optional
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 
@@ -71,13 +71,22 @@ class LoginForm(FlaskForm):
 class logMaxs(FlaskForm):
     exercise = SelectField("Exercises", choices=[('Bench', 'Bench'), ('Squat', 'Squat'), 
     ('Deadlift', 'Deadlift')])
-    fiveRM = IntegerField(render_kw={"placeholder": "5 RM"})
-    fourRM = IntegerField(render_kw={"placeholder": "4 RM"})
-    threeRM = IntegerField(render_kw={"placeholder": "3 RM"})
-    twoRM = IntegerField(render_kw={"placeholder": "2 RM"})
-    oneRM = IntegerField(render_kw={"placeholder": "1 RM"})
+    fiveRM = IntegerField(render_kw={"placeholder": "5 RM"}, validators=[Optional()])
+    fourRM = IntegerField(render_kw={"placeholder": "4 RM"}, validators=[Optional()])
+    threeRM = IntegerField(render_kw={"placeholder": "3 RM"}, validators=[Optional()])
+    twoRM = IntegerField(render_kw={"placeholder": "2 RM"}, validators=[Optional()])
+    oneRM = IntegerField(render_kw={"placeholder": "1 RM"}, validators=[Optional()])
 
     submit = SubmitField("Submit")
+
+class deleteRecord(FlaskForm):
+    exercise = SelectField("Exercises", choices=[('Bench', 'Bench'), ('Squat', 'Squat'), 
+    ('Deadlift', 'Deadlift')])
+    #reps = SelectField("Reps No", choices=[("fiveRM", '5 RM'), ("fourRM", '4 RM'), 
+    #("threeRM", '3 RM'), ("twoRM", '2 RM'), ("oneRM", '1 RM')])
+
+    submit = SubmitField("Delete")
+
          
 
 @app.route("/")
@@ -132,6 +141,20 @@ def logMaxsPage():
 
     return render_template('logMaxs.html', form=form)
 
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    id = current_user.get_id()
+
+    form = deleteRecord()
+    if form.validate_on_submit():
+        record = RepMaxs.query.filter_by(exercise=form.exercise.data,  user_id=id).delete()
+        db.session.commit()
+
+        return redirect(url_for('dashboard'))
+    
+    return render_template('delete.html', form=form)
+
+
 
 @app.route('/dashboard',  methods=['GET', 'POST'])
 @login_required
@@ -139,28 +162,94 @@ def dashboard():
 
     id = current_user.get_id()
     user = User.query.filter_by(id=id).first()
-    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).all()
-    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).all()
+    #squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).all()
+    #deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).all()
 
-    #benchList = [RepMaxs.fiveRM, RepMaxs.fourRM, RepMaxs.threeRM, RepMaxs.twoRM, RepMaxs.oneRM]
     benchReturn = []
     
     bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.fiveRM)).first()
-    benchReturn.append(bench.fiveRM)
+    if bench != None:
+        benchReturn.append(bench.fiveRM)
+    else: 
+        benchReturn.append(None)
     bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.fourRM)).first()
-    benchReturn.append(bench.fourRM)
+    if bench != None:
+        benchReturn.append(bench.fourRM)
+    else: 
+        benchReturn.append(None)
     bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.threeRM)).first()
-    benchReturn.append(bench.threeRM)
+    if bench != None:
+        benchReturn.append(bench.threeRM)
+    else: 
+        benchReturn.append(None)
     bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.twoRM)).first()
-    benchReturn.append(bench.twoRM)
+    if bench != None:
+        benchReturn.append(bench.twoRM)
+    else: 
+        benchReturn.append(None)
     bench = RepMaxs.query.filter_by(exercise='Bench', user_id=id).order_by(desc(RepMaxs.oneRM)).first()
-    benchReturn.append(bench.oneRM)
+    if bench != None:
+        benchReturn.append(bench.oneRM)
+    else: 
+        benchReturn.append(None)
 
-    print(benchReturn)
+    squatReturn = []
     
-    
+    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).order_by(desc(RepMaxs.fiveRM)).first()
+    if squat != None:
+        squatReturn.append(squat.fiveRM)
+    else: 
+        squatReturn.append(None)
+    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).order_by(desc(RepMaxs.fourRM)).first()
+    if squat != None:
+        squatReturn.append(squat.fourRM)
+    else: 
+        squatReturn.append(None)
+    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).order_by(desc(RepMaxs.threeRM)).first()
+    if squat != None:
+        squatReturn.append(squat.threeRM)
+    else: 
+        squatReturn.append(None)
+    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).order_by(desc(RepMaxs.twoRM)).first()
+    if squat != None:
+        squatReturn.append(squat.twoRM)
+    else: 
+        squatReturn.append(None)
+    squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).order_by(desc(RepMaxs.oneRM)).first()
+    if squat != None:
+        squatReturn.append(squat.oneRM)
+    else: 
+        squatReturn.append(None)
 
-    return render_template('dash.html', user=user, bench=benchReturn, squat=squat, deadlift=deadlift)
+    deadliftReturn = []
+    
+    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).order_by(desc(RepMaxs.fiveRM)).first()
+    if deadlift != None:
+        deadliftReturn.append(deadlift.fiveRM)
+    else: 
+        deadliftReturn.append(None)
+    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).order_by(desc(RepMaxs.fourRM)).first()
+    if deadlift != None:
+        deadliftReturn.append(deadlift.fourRM)
+    else: 
+        deadliftReturn.append(None)
+    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).order_by(desc(RepMaxs.threeRM)).first()
+    if deadlift != None:
+        deadliftReturn.append(deadlift.threeRM)
+    else: 
+        deadliftReturn.append(None)
+    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).order_by(desc(RepMaxs.twoRM)).first()
+    if deadlift != None:
+        deadliftReturn.append(deadlift.twoRM)
+    else: 
+        deadliftReturn.append(None)
+    deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).order_by(desc(RepMaxs.oneRM)).first()
+    if deadlift != None:
+        deadliftReturn.append(deadlift.oneRM)
+    else: 
+        deadliftReturn.append(None)
+
+    return render_template('dash.html', user=user, bench=benchReturn, squat=squatReturn, deadlift=deadliftReturn)
 
 
 if __name__ == "__main__":

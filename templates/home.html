@@ -3,6 +3,24 @@
 {% block content %}
 
 <h1>This is the home page</h1>
+
 <a href="{{url_for('login')}}"> Login Page </a><br>
-<a href="{{url_for('register')}}"> registeration Page </a>
+<a href="{{url_for('register')}}"> Registeration Page </a>
+
+<br>
+
+<h1> Rep Max Calculator</h1>
+<table style="max-width:700px;" class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>Weight (KG)</th>
+            <td>Reps (1-12)</td>
+        </tr>
+    </thead>
+    <tr>
+        <td><input type="text" id="fname" name="fname"></td>
+        <td><input type="text" id="fname" name="fname"></td>
+        <td><button>GO</button></td>
+    </tr>
+
 {% endblock %}

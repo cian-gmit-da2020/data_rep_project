@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Cian Hogan|Register{% endblock %}
+{% block content %}
+<h1>This is the delete page title</h1>
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {{ form.exercise }}
+    {{ form.submit }}
+
+</form>
+<p>
+    Already have an account? <a href="{{url_for('login')}}"> Login Here</a>
+</p>
+
+
+{% endblock %}

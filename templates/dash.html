@@ -9,109 +9,177 @@
 <table style="max-width:50%;" class="table table-bordered table-responsive">
     <thead>
     <tr>
-        <th colspan="2">Bench Press</th>
+        <th colspan="1">Bench Press</th>
+        <th><a class="button" href="{{url_for('logMaxsPage')}}"> Submit </a>&emsp;
+            <a class="button" href="{{url_for('delete')}}"> Delete </a></th>
     </tr>
 </thead>
 
 <tr>
     <td>5RM</td>
-    <td>{{bench[0]}}</td>
+    {% if bench[0] != None %}
+        <td>{{bench[0]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+    
 </tr>
 
 <tr>
     <td>4RM</td>
-    <td>{{bench[1]}}</td>
+    {% if bench[1] != None %}
+    <td>{{bench[1]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
 </tr>
 
 <tr>
     <td>3RM</td>
-    <td>{{bench[2]}}</td>
+    {% if bench[2] != None %}
+    <td>{{bench[2]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
 </tr>
 
 <tr>
     <td>2RM</td>
-    <td>{{bench[3]}}</td>
+    {% if bench[3] != None %}
+    <td>{{bench[3]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
 </tr>
 
 <tr>
     <td>1RM</td>
-    <td>{{bench[4]}}</td>
+    {% if bench[4] != None %}
+    <td>{{bench[4]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
 </tr>
 </table>
 <br>
-<table class="table">
+<table style="max-width:50%;" class="table table-bordered table-responsive">
+    <thead>
     <tr>
-        <th colspan="2">Squat</th>
+        <th colspan="1">Squat</th>
+        <td><a class="button"href="{{url_for('logMaxsPage')}}"> Submit </a> &emsp;
+            <a class="button" href="{{url_for('delete')}}"> Delete </a></td>
     </tr>
-    <tr>
-        <td>5 RM</td>
-        <td>{{squat[0].fiveRM}}</td>
-    </tr>
-    <tr>
-        <td>4 RM</td>
-        <td>{{squat[0].fourRM}}</td>
-    </tr>
-    <tr>
-        <td>3 RM</td>
-        <td>{{squat[0].threeRM}}</td>
-    </tr>
-    <tr>
-        <td>2 RM</td>
-        <td>{{squat[0].twoRM}}</td>
-    </tr>
-    <tr>
-        <td>1 RM</td>
-        <td>{{squat[0].oneRM}}</td>
-    </tr>
+</thead>
+
+<tr>
+    <td>5RM</td>
+    {% if squat[0] != None %}
+        <td>{{squat[0]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+    
+</tr>
+
+<tr>
+    <td>4RM</td>
+    {% if squat[1] != None %}
+    <td>{{squat[1]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>3RM</td>
+    {% if squat[2] != None %}
+    <td>{{squat[2]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>2RM</td>
+    {% if squat[3] != None %}
+    <td>{{squat[3]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>1RM</td>
+    {% if squat[4] != None %}
+    <td>{{squat[4]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+
 </table>
 <br>
-<table class="table">
+
+<table style="max-width:50%;" class="table table-bordered table-responsive">
+    <thead>
     <tr>
-        <th colspan="2">Deadlift</th>
+        <th colspan="1">Deadlift</th>
+        <td><a class="button" href="{{url_for('logMaxsPage')}}"> Submit </a> &emsp;
+            <a class="button" href="{{url_for('delete')}}"> Delete </a></td>
+
     </tr>
-    <tr>
-        <td>5 RM</td>
-        <td>{{deadlift[0].fiveRM}}</td>
-    </tr>
-    <tr>
-        <td>4 RM</td>
-        <td>{{deadlift[0].fourRM}}</td>
-    </tr>
-    <tr>
-        <td>3 RM</td>
-        <td>{{deadlift[0].threeRM}}</td>
-    </tr>
-    <tr>
-        <td>2 RM</td>
-        <td>{{deadlift[0].twoRM}}</td>
-    </tr>
-    <tr>
-        <td>1 RM</td>
-        <td>{{deadlift[0].oneRM}}</td>
-    </tr>
+</thead>
+
+<tr>
+    <td>5RM</td>
+    {% if deadlift[0] != None %}
+        <td>{{deadlift[0]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+    
+</tr>
+
+<tr>
+    <td>4RM</td>
+    {% if deadlift[1] != None %}
+    <td>{{deadlift[1]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>3RM</td>
+    {% if deadlift[2] != None %}
+    <td>{{deadlift[2]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>2RM</td>
+    {% if deadlift[3] != None %}
+    <td>{{deadlift[3]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
+<tr>
+    <td>1RM</td>
+    {% if deadlift[4] != None %}
+    <td>{{deadlift[4]}} KG</td>
+    {% else %}
+        <td></td>
+    {% endif %}
+</tr>
+
 </table>
-<!--
-<br>
-{% if bench|length > 0 %}
-<p>Bench:
-    5 RM: {{bench[0].fiveRM}}
-    1 RM: {{bench[0].oneRM}}
-</p>
-{% endif %}
-{% if squat|length > 0 %}
-<p>Squat:
-    5 RM: {{squat[0].fiveRM}} 
-    1 RM: {{squat[0].oneRM}} 
-</p>
-{% endif %}
-{% if deadlift|length > 0 %}
-<p>
-    Deadlift:
-    5 RM: {{deadlift[0].fiveRM}} 
-    1 RM: {{deadlift[0].oneRM}}
-</p>
-{% endif %}-->
 
 <a href= "{{url_for('logout')}}" >Logout</a>
+<br>
 
 {% endblock %}
