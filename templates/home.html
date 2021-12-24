@@ -2,25 +2,156 @@
 {% block title %}Cian Hogan|HOME{% endblock %}
 {% block content %}
 
-<h1>This is the home page</h1>
+<h1>Home Page</h1>
+
+<p>This app allows you to estimate your strength training lifting maxes through the below rep max calculator</p>
+<p>You can save your lift records by registering an account and submitting records for the Bench,Squat and Deadlift in the submit records page</p>
+<p>Use the links below to register, if you already have an account login and view your records in your dashboard</p>
+
 
 <a href="{{url_for('login')}}"> Login Page </a><br>
 <a href="{{url_for('register')}}"> Registeration Page </a>
 
-<br>
+<br><br>
 
-<h1> Rep Max Calculator</h1>
-<table style="max-width:700px;" class="table table-bordered table-responsive">
+<h1> Rep Max Calculator</h1><br>
+
+<form>
+
+<input type="text" id="weightInput" placeholder="Weight (KG)">
+<label for="">Weight KG</label><br><br>
+
+<input type="text" id="repsInput" placeholder="Reps 1-12">
+<label for="">Reps 1-12</label><br><br>
+<button type="submit" class="btn btn-primary">GO</button>
+</form><br>
+
+<table id="repMaxTable" style="max-width:50%; display:none;" class="table table-bordered table-responsive">
     <thead>
-        <tr>
-            <th>Weight (KG)</th>
-            <td>Reps (1-12)</td>
-        </tr>
+        <th style="text-align:center;" colspan="3">
+            Estimated Repetiton Maxes
+        </th>
     </thead>
     <tr>
-        <td><input type="text" id="fname" name="fname"></td>
-        <td><input type="text" id="fname" name="fname"></td>
-        <td><button>GO</button></td>
+        <td>Estimated 1RM</td>
+        <td id="tableData1"></td>
+        <td>100%</td>
     </tr>
+    <tr>
+        <td>Estimated 2RM</td>
+        <td id="tableData2"></td>
+        <td>95%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 3RM</td>
+        <td id="tableData3"></td>
+        <td>93%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 4RM</td>
+        <td id="tableData4"></td>
+        <td>90%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 5RM</td>
+        <td id="tableData5"></td>
+        <td>87%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 6RM</td>
+        <td id="tableData6"></td>
+        <td>85%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 7RM</td>
+        <td id="tableData7"></td>
+        <td>83%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 8RM</td>
+        <td id="tableData8"></td>
+        <td>80%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 9RM</td>
+        <td id="tableData9"></td>
+        <td>77%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 10RM</td>
+        <td id="tableData10"></td>
+        <td>75%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 11RM</td>
+        <td id="tableData11"></td>
+        <td>70%</td>
+
+    </tr>
+    <tr>
+        <td>Estimated 12RM</td>
+        <td id="tableData12"></td>
+        <td>67%</td>
+
+    </tr>
+</table>
+   
+
+{% endblock %}
+{% block javascript %}
+
+<script>
+  
+$('form').on('submit', function(event) {
+    
+
+    $.ajax({
+        data:{
+            weight: $('#weightInput').val(),
+            reps: $('#repsInput').val()
+        },
+        type: 'POST',
+        url: '/process'
+    })
+    .done(function(result){
+        if (result.error){
+
+            console.log(result.error)
+
+        }
+        else{
+            
+            $('#repMaxTable').show();
+            $('#tableData1').text(result.estimated_Max+" KG");
+            $('#tableData2').text(result['2rm']+" KG");
+            $('#tableData3').text(result['3rm']+" KG"); 
+            $('#tableData4').text(result['4rm']+" KG"); 
+            $('#tableData5').text(result['5rm']+" KG"); 
+            $('#tableData6').text(result['6rm']+" KG"); 
+            $('#tableData7').text(result['7rm']+" KG");
+            $('#tableData8').text(result['8rm']+" KG");
+            $('#tableData9').text(result['9rm']+" KG"); 
+            $('#tableData10').text(result['10rm']+" KG"); 
+            $('#tableData11').text(result['11rm']+" KG"); 
+            $('#tableData12').text(result['12rm']+" KG"); 
+            
+            console.log(result);
+
+        }
+    })
+
+    event.preventDefault();
+})
+
+</script>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, jsonify
+from flask import Flask, render_template, url_for, redirect, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -82,8 +82,6 @@ class logMaxs(FlaskForm):
 class deleteRecord(FlaskForm):
     exercise = SelectField("Exercises", choices=[('Bench', 'Bench'), ('Squat', 'Squat'), 
     ('Deadlift', 'Deadlift')])
-    #reps = SelectField("Reps No", choices=[("fiveRM", '5 RM'), ("fourRM", '4 RM'), 
-    #("threeRM", '3 RM'), ("twoRM", '2 RM'), ("oneRM", '1 RM')])
 
     submit = SubmitField("Delete")
 
@@ -153,6 +151,37 @@ def delete():
         return redirect(url_for('dashboard'))
     
     return render_template('delete.html', form=form)
+
+
+@app.route('/process', methods=['POST'])
+def process():
+    reps = request.form['reps']
+    weight = request.form['weight']
+
+    if reps and weight:
+        reps, weight = float(reps), float(weight)
+
+        myMax = round(weight * (1 + (reps/30)),1)
+
+        returnValue = {}
+        returnValue['estimated_Max'] = str(myMax)
+        returnValue['12rm'] = str(round(myMax*.67,1))
+        returnValue['11rm'] = str(round(myMax*.70,1))
+        returnValue['10rm'] = str(round(myMax*.75,1))
+        returnValue['9rm'] = str(round(myMax*.77,1))
+        returnValue['8rm'] = str(round(myMax*.80,1))
+        returnValue['7rm'] = str(round(myMax*.83,1))
+        returnValue['6rm'] = str(round(myMax*.85,1))
+        returnValue['5rm'] = str(round(myMax*.87,1))
+        returnValue['4rm'] = str(round(myMax*.90,1))
+        returnValue['3rm'] = str(round(myMax*.93,1))
+        returnValue['2rm'] = str(round(myMax*.95,1))
+
+
+        return jsonify(returnValue)
+    
+    return jsonify({'error':"Missing Values"})
+
 
 
 

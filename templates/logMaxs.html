@@ -2,23 +2,23 @@
 {% block title %}Cian Hogan|Log Maxes{% endblock %}
 {% block content %}
 
-<h1>This is the registeration page title</h1>
-
+<h1>Choose an exercise and<br>
+    log your rep records below</h1>
 
 <form method="POST" action="">
     {{ form.hidden_tag() }}<br>
-    {{ form.exercise }}<br>
+    {{ form.exercise }}<br><br>
     {{ form.fiveRM }}<br>
     {{ form.fourRM }}<br>
     {{ form.threeRM }}<br>
     {{ form.twoRM }}<br>
-    {{ form.oneRM }}<br>
+    {{ form.oneRM }}<br><br>
     {{ form.submit }}<br>
 
-</form>
+</form><br>
 
 <p>
-    Already have an account? <a href="{{url_for('login')}}"> Login Here</a>
+    <a href= "{{url_for('logout')}}" >Logout</a>
 </p>
 
 {% endblock %}
