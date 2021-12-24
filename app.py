@@ -8,14 +8,16 @@ from wtforms.validators import InputRequired, Length, ValidationError, Optional
 from flask_bcrypt import Bcrypt
 from datetime import datetime
 
-
+# Initiate the app
 app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbtest.db'
+# Confiq DB file
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///appDB.db'
 app.config['SECRET_KEY'] = 'secretkey'
 
+# Manage user login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -24,11 +26,13 @@ login_manager.login_view = "login"
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# User DB model Class
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
 
+# DB class for storing rep max data
 class RepMaxs(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     exercise = db.Column(db.String(20))
@@ -40,10 +44,11 @@ class RepMaxs(db.Model, UserMixin):
     oneRM = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+# initilize DB if it doesnt exist yet
+#db.create_all()
 
-db.create_all()
-
-
+# Flask forms for user registration and login
+# Forms for submitting and deleting records
 class RegistrationForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
@@ -86,19 +91,20 @@ class deleteRecord(FlaskForm):
     submit = SubmitField("Delete")
 
          
+# Page url routes
 
+# home page
 @app.route("/")
 def home():
     return render_template("home.html")
 
-
-
+# user logout
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
+# user login
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -110,8 +116,7 @@ def login():
                 return  redirect(url_for('dashboard'))
     return render_template("login.html", form=form)
 
-
-
+# register new user
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -125,6 +130,7 @@ def register():
 
     return render_template("register.html", form=form)
 
+# Page to submit records
 @app.route('/logMaxs',  methods=['GET', 'POST'])
 @login_required
 def logMaxsPage():
@@ -139,6 +145,7 @@ def logMaxsPage():
 
     return render_template('logMaxs.html', form=form)
 
+# Page to delete records
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
     id = current_user.get_id()
@@ -152,7 +159,7 @@ def delete():
     
     return render_template('delete.html', form=form)
 
-
+# route for ajax request
 @app.route('/process', methods=['POST'])
 def process():
     reps = request.form['reps']
@@ -182,17 +189,16 @@ def process():
     
     return jsonify({'error':"Missing Values"})
 
-
-
-
+# Dashboard page
 @app.route('/dashboard',  methods=['GET', 'POST'])
 @login_required
 def dashboard():
 
     id = current_user.get_id()
     user = User.query.filter_by(id=id).first()
-    #squat = RepMaxs.query.filter_by(exercise='Squat', user_id=id).all()
-    #deadlift = RepMaxs.query.filter_by(exercise='Deadlift', user_id=id).all()
+    
+    # 3 exercises bench squat and deadlift, queried seperatley to make it possible to find 
+    # max value of different reps
 
     benchReturn = []
     
@@ -282,4 +288,5 @@ def dashboard():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    db.create_all()
+    app.run()
